@@ -1,99 +1,36 @@
 
 "use strict"; 
 
-//Functions
-//let const declared in function scope are accessible only there and are not global!
+const str = "teSt";
+const arr = [1, 2, 4];
 
-let num = 20;
+// console.log(str.length);
+// console.log(arr.length);
+console.log(str.toLowerCase());
+console.log(str);
 
-function showFirstMessage(text) {
-    console.log(text);
-    let num = 10;
-    console.log(num);
-}
+const fruit = "Some fruit";
 
-showFirstMessage('Hello World!');
-console.log(num);
+console.log(fruit.indexOf("q")); //-1 means not find
 
-// function calc(a, b) {
-//     return (a + b);
-// }
+const logg = "Hello world";
 
-// console.log(calc(4, 3));
-// console.log(calc(5, 6));
-// console.log(calc(10, 6));
+//cut piece of string from/till position not including ends
+console.log(logg.slice(6, 11)); //world
 
+//you can point from/till position from the end
+console.log(logg.slice(-5, -1)); // worl
 
-//Function declaration
-//This function is created before code execution
-//we can write declaration after or before function call
+//the same without negative positions
+console.log(logg.substring(6, 11)); //world
 
-function ret() {
-    let num = 50;
-    return num;
-}
+//cut piece of string from indicated position neede number of symbols not including ends
+console.log(logg.substr(6, 5)); //world
 
-const anotherNum = ret();
-console.log(anotherNum);
+const num = 12.2;
+console.log(Math.round(num)); //12
 
-//Function expression
-//This function invokes only whe code reaches this expression
-//we can write declaration only before function call
-
-const logger = function() {
-    console.log("Hello");
-};
-logger();
-
-//Arrow functions
-//arrow functions don't have own this context, 
-//hence they use this value as outer context reference
-
-//shortcut
-const calc = (a, b) => a + b;
-//classic
-// const calc = (a, b) => { return a + b; };
-console.log();
-
-var f = () => this;
-console.log(f());
-
-
-// //closure ex 1
-// let name = "John";
-
-// function sayHi() {
-//   console.log("Hi, " + name);
-// }
-
-// name = "Pete";
-// sayHi(); //Hi, Pete
-
-//closure ex 2
-function makeWorker() {
-    let name = "Pete";
-  
-    return function() {
-      console.log(name);
-    };
-  }
-  
-  let name = "John";
-  
-  let work = makeWorker();
-  work(); //Pete
-
-  
-  function makeCounter() {
-    let count = 0;
-  
-    return function() {
-      return count++; // есть доступ к внешней переменной "count"
-    };
-  }
-  
-  let counter = makeCounter();
-  
-  console.log( counter() ); // 0
-  console.log( counter() ); // 1
-  console.log( counter() ); // 2
+const test = "12.2px";
+//transform argument to another notation: parsing argument to integer
+console.log(parseInt(test)); //12 and this will be integer number
+console.log(parseFloat(test)); //12.2 and this will be float number
