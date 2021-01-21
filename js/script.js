@@ -1,82 +1,79 @@
-/* Задание на урок:
-1) Первую часть задания повторить по уроку
-2) Создать функцию showMyDB, которая будет проверять свойство privat. Если стоит в позиции
-false - выводит в консоль главный объект программы
-3) Создать функцию writeYourGenres в которой пользователь будет 3 раза отвечать на вопрос 
-"Ваш любимый жанр под номером ${номер по порядку}". Каждый ответ записывается в массив данных
-genres
-P.S. Функции вызывать не обязательно */
 
 "use strict"; 
 
-let numberOfFilms;
+//Callbacks
 
-function start () {
-    numberOfFilms = +prompt('How many movies have you already watch?', '');
-
-    while (numberOfFilms == '' || numberOfFilms == null || isNaN(numberOfFilms)) {
-        numberOfFilms = +prompt('How many movies have you already watch?', '');
-
-    }
+function first() {
+    //Do something
+    setTimeout(function () {
+        console.log(1);
+    }, 500);
 }
 
-start();
-
-function detectPersonalLevel () {
-    if (numberOfFilms > 0 && numberOfFilms < 10) {
-        console.log("Quite a few movies were watched");
-    } else if (numberOfFilms >= 10 && numberOfFilms <=30) {
-        console.log("You are a classical spectator");
-    } else if (numberOfFilms > 30) {
-        console.log("You are movie fan");
-    } else {
-        console.log("Error occured");
-    }
+function second() {
+    console.log(2);
 }
 
-detectPersonalLevel();
+first();
+second();
 
-const personalMovieDB = {
-    count: numberOfFilms,
-    movies: {},
-    actors: {},
-    genres: [],
-    privat: false
+//function passed as argument in another function
+function learnJS(lang, callback) {
+    console.log(`I study: ${lang}`);
+    callback();
+}
+
+function done() {
+    console.log(`I've passed this lesson!`);
+}
+
+learnJS('JavaScript', done);
+
+
+//Objects and their methods
+
+const options = {
+    name: 'test',
+    width: 1024,
+    height: 1024,
+    colors: {
+        border: 'black',
+        bg: 'red'
+    },
+    makeTest: function () {
+        console.log("Test");
+    }
 };
 
-function rememberMyFilms () {
-    for (let i = 0; i < 2; i++) {
-        const lastWatchedMovie = prompt('What is your one of the last watched movie?', ''),
-              movieRating = prompt('How can you rate it?', '');
-        if (lastWatchedMovie != null && movieRating != null && lastWatchedMovie != '' && 
-        lastWatchedMovie != '' && lastWatchedMovie.length <= 50 ) {
-            personalMovieDB.movies[lastWatchedMovie] = movieRating;
-            console.log('Done');
-        } else {
-            console.log('Error');
-            i--;
+options.makeTest();
+
+//Object destructurization
+const {border, bg} = options.colors;
+console.log(border);
+
+console.log(options.name);
+
+//delete indicated property from object
+delete options.name;
+console.log(options);
+
+//foreach analogue
+let counter = 0;
+for (let key in options) {
+    if (typeof(options[key]) === 'object') {
+        for (let i in options[key]) {
+            console.log(`Property ${i} has value ${options[key][i]}`);
+            counter++;
         }
+    } else {
+        console.log(`Property ${key} has value ${options[key]}`);
+        counter++;
     }
 }
+console.log(counter);
 
-rememberMyFilms();
+//get all object properties
+console.log(Object.keys(options));
 
-function showMyDB () {
-    if(!personalMovieDB.privat) {
-        console.log(personalMovieDB);
-    }
-}
-
-showMyDB();
-
-function writeYourGenres () {
-    for(let i = 1; i < 4; i++) {
-        personalMovieDB.genres[i-1] = prompt(`What is your favourite genre by number ${i}?`);
-    }
-}
-
-writeYourGenres();
-
-// let str = "travelling";
-// console.log(parseInt(str));
-// console.log(typeof(parseInt(str)));
+//get number of object properties
+console.log(Object.keys(options).length);
