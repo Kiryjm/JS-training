@@ -1,79 +1,71 @@
 
 "use strict"; 
 
-//Callbacks
+//Arrays and pseudo arrays
 
-function first() {
-    //Do something
-    setTimeout(function () {
-        console.log(1);
-    }, 500);
+const arr = [1, 2, 13, 26, 8, 10];
+//sort numeric data types as strings
+arr.sort(); // 1, 10, 13, 2, 26, 8
+//uses quick sort. 
+arr.sort(compareNum);
+console.log(arr);
+
+//if compare function for a and b returns positive -> b gets lower index than a
+//if compare function for a and b returns negative -> a gets lower index than b 
+//if compare function for a and b returns 0 -> a and b will be sorted 
+//relatively to other elements, but not to each other
+
+function compareNum(a, b) {
+    return a - b;
 }
 
-function second() {
-    console.log(2);
+arr[99] = 0;
+console.log(arr.length); // 100
+console.log(arr); // [ 1, 2, 3, 4, 6, 8, <93 empty items>, 0 ]
+
+arr.forEach(function (item, i, arr) {
+    console.log(`${i}: ${item} inside array ${arr}`);
+});
+
+//delete last array element
+arr.pop();
+//add element to the array's end
+arr.push(10);
+
+console.log(arr);
+
+for (let i = 0; i < arr.length; i++) {
+    console.log(arr[i]);
 }
 
-first();
-second();
-
-//function passed as argument in another function
-function learnJS(lang, callback) {
-    console.log(`I study: ${lang}`);
-    callback();
+//foreach analogue works only with array type entities!
+//if break/continue supposed to use -> choose for of cycle!
+for (let value of arr) {
+    console.log(value);
 }
 
-function done() {
-    console.log(`I've passed this lesson!`);
-}
+const str = prompt("", "");
+//transform string to array using indicated splitter
+const products = str.split(", ");
+//sort all elements in alphabet order< if they are strings
+//
+products.sort();
+//merge string using indicated splitter
+console.log(products.join('; '));
 
-learnJS('JavaScript', done);
+
+//Pseudo arrays - objects with indexed properties and length. F.e. HTML collection
+//They dont have embeded array methods!
 
 
-//Objects and their methods
 
-const options = {
-    name: 'test',
-    width: 1024,
-    height: 1024,
-    colors: {
-        border: 'black',
-        bg: 'red'
-    },
-    makeTest: function () {
-        console.log("Test");
-    }
-};
+//Iterable objects - objects that implements Symbol.iterator method
+let range = {
+    0: 1,
+    1: 5,
+    length: 2
+  };
 
-options.makeTest();
-
-//Object destructurization
-const {border, bg} = options.colors;
-console.log(border);
-
-console.log(options.name);
-
-//delete indicated property from object
-delete options.name;
-console.log(options);
-
-//foreach analogue
-let counter = 0;
-for (let key in options) {
-    if (typeof(options[key]) === 'object') {
-        for (let i in options[key]) {
-            console.log(`Property ${i} has value ${options[key][i]}`);
-            counter++;
-        }
-    } else {
-        console.log(`Property ${key} has value ${options[key]}`);
-        counter++;
-    }
-}
-console.log(counter);
-
-//get all object properties
-console.log(Object.keys(options));
-
-//get number of object properties
-console.log(Object.keys(options).length);
+  for (let num of range) {
+    console.log(range[num]); // 1 5
+  }
