@@ -1,71 +1,111 @@
 
 "use strict"; 
 
-//Arrays and pseudo arrays
+//Parameter passing by reference/by value
 
-const arr = [1, 2, 13, 26, 8, 10];
-//sort numeric data types as strings
-arr.sort(); // 1, 10, 13, 2, 26, 8
-//uses quick sort. 
-arr.sort(compareNum);
-console.log(arr);
+//passing by value (for primitives: string, numbers, boolean)
+let a = 5,
+    b = a; //value
 
-//if compare function for a and b returns positive -> b gets lower index than a
-//if compare function for a and b returns negative -> a gets lower index than b 
-//if compare function for a and b returns 0 -> a and b will be sorted 
-//relatively to other elements, but not to each other
+b = b + 5;
+console.log(a); //5
+console.log(b); //10
 
-function compareNum(a, b) {
-    return a - b;
+//passing by reference (objects: arrays, function...)
+const obj = {
+    a: 5,
+    b: 1
+};
+
+const copyObj = obj; //reference
+copyObj.a = 10;
+console.log(copyObj); // a: 10, b: 1
+console.log(obj); // a: 10, b: 1
+
+//Iterating properties received object and creating new object
+function copy(mainObj) {
+    let objCopy = {};
+
+    let key;
+    for (key in mainObj) {
+        objCopy[key] = mainObj[key];
+    }
+
+    return objCopy;
 }
 
-arr[99] = 0;
-console.log(arr.length); // 100
-console.log(arr); // [ 1, 2, 3, 4, 6, 8, <93 empty items>, 0 ]
+const numbers = {
+    a: 2,
+    b: 5,
+    c: {
+        x: 7,
+        y: 4
+    }
+};
 
-arr.forEach(function (item, i, arr) {
-    console.log(`${i}: ${item} inside array ${arr}`);
-});
+const newNumbers = copy(numbers);
 
-//delete last array element
-arr.pop();
-//add element to the array's end
-arr.push(10);
+newNumbers.a = 10;
+//A deep copy means that all of the values of the new variable are copied and 
+//disconnected from the original variable. 
+//A shallow copy means that certain (sub-)values are still connected 
+//to the original variable.
 
-console.log(arr);
+//if we have embeded objects such copy will be shallow and x = 10 in both objects
+newNumbers.c.x = 10;
+console.log(newNumbers); // { a: 10, b: 5, c: { x: 10, y: 4 } }
+console.log(numbers); // { a: 2, b: 5, c: { x: 10, y: 4 } }
 
-for (let i = 0; i < arr.length; i++) {
-    console.log(arr[i]);
+ const add = {
+     d: 17,
+     e: 20
+ };
+
+ // { a: 2, b: 5, c: { x: 10, y: 4 }, d: 17, e: 20 } copy add to numbers
+console.log(Object.assign(numbers, add)); 
+
+//copy add to new object
+const clone = Object.assign({}, add); 
+clone.d = 20;
+console.log(add);
+console.log(clone);
+
+const oldArray = ['a', 'b', 'c'];
+//copy array to new array
+const newArray = oldArray.slice();
+newArray[1] = 'asgdhd';
+console.log(oldArray); // [ 'a', 'b', 'c' ]
+console.log(newArray); // [ 'a', 'asgdhd', 'c' ]
+
+//Spread operator
+
+const video = ['youtube', 'vimeo', 'rutube'],
+      blogs = ['wordpress', 'livejournal', 'blogger'],
+
+      // ... arrayName allows to add all elements to new array
+      internet = [...video, ...blogs, 'vk', 'facebook']; 
+console.log(internet);
+
+function log(a, b, c) {
+    console.log(a);
+    console.log(b);
+    console.log(c);
 }
 
-//foreach analogue works only with array type entities!
-//if break/continue supposed to use -> choose for of cycle!
-for (let value of arr) {
-    console.log(value);
-}
+const num = [2, 5, 7];
 
-const str = prompt("", "");
-//transform string to array using indicated splitter
-const products = str.split(", ");
-//sort all elements in alphabet order< if they are strings
-//
-products.sort();
-//merge string using indicated splitter
-console.log(products.join('; '));
+//pass three arguments
+log(... num); // 2 5 7
 
+const arr = ['a', 'b'];
 
-//Pseudo arrays - objects with indexed properties and length. F.e. HTML collection
-//They dont have embeded array methods!
+const newArr = [...arr]; // [ 'a', 'b' ]
+console.log(newArr);
 
+const q = {
+    one: 1,
+    two: 2,
+};
 
-
-//Iterable objects - objects that implements Symbol.iterator method
-let range = {
-    0: 1,
-    1: 5,
-    length: 2
-  };
-
-  for (let num of range) {
-    console.log(range[num]); // 1 5
-  }
+const newObj = {...q};
+console.log(newObj); // { one: 1, two: 2 }
