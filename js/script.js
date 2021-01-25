@@ -1,111 +1,87 @@
+/* Задание на урок:
+1) У нас уже есть рабочее приложение, состоящее из отдельных функций. Представьте, что
+перед вами стоит задача переписать его так, чтобы все функции стали методами объекта personalMovieDB
+Такое случается в реальных продуктах при смене технологий или подхода к архитектуре программы
+2) Создать метод toggleVisibleMyDB, который при вызове будет проверять свойство privat. Если оно false - он
+переключает его в true, если true - переключает в false. Протестировать вместе с showMyDB.
+3) В методе writeYourGenres запретить пользователю нажать кнопку "отмена" или оставлять пустую строку. 
+Если он это сделал - возвращать его к этому же вопросу. После того, как все жанры введены - 
+при помощи метода forEach вывести в консоль сообщения в таком виде:
+"Любимый жанр #(номер по порядку, начиная с 1) - это (название из массива)"*/
 
 "use strict"; 
 
-//Parameter passing by reference/by value
-
-//passing by value (for primitives: string, numbers, boolean)
-let a = 5,
-    b = a; //value
-
-b = b + 5;
-console.log(a); //5
-console.log(b); //10
-
-//passing by reference (objects: arrays, function...)
-const obj = {
-    a: 5,
-    b: 1
-};
-
-const copyObj = obj; //reference
-copyObj.a = 10;
-console.log(copyObj); // a: 10, b: 1
-console.log(obj); // a: 10, b: 1
-
-//Iterating properties received object and creating new object
-function copy(mainObj) {
-    let objCopy = {};
-
-    let key;
-    for (key in mainObj) {
-        objCopy[key] = mainObj[key];
+const personalMovieDB = {
+    count: 0,
+    movies: {},
+    actors: {},
+    genres: [],
+    privat: false,
+    start: function() {
+        personalMovieDB.count = +prompt('How many movies have you already watch?', '');
+    
+        while (personalMovieDB.count == '' || personalMovieDB.count == null || isNaN(personalMovieDB.count)) {
+            personalMovieDB.count = +prompt('How many movies have you already watch?', '');
+    
+        }
+    },
+    rememberMyFilms: function() {
+        for (let i = 0; i < 2; i++) {
+            const lastWatchedMovie = prompt('What is your one of the last watched movie?', ''),
+                  movieRating = prompt('How can you rate it?', '');
+            if (lastWatchedMovie != null && movieRating != null && lastWatchedMovie != '' && 
+            lastWatchedMovie != '' && lastWatchedMovie.length <= 50 ) {
+                personalMovieDB.movies[lastWatchedMovie] = movieRating;
+                console.log('Done');
+            } else {
+                console.log('Error');
+                i--;
+            }
+        }
+    },
+    detectPersonalLevel: function() {
+        if (personalMovieDB.count > 0 && personalMovieDB.count < 10) {
+            console.log("Quite a few movies were watched");
+        } else if (personalMovieDB.count >= 10 && personalMovieDB.count <=30) {
+            console.log("You are a classical spectator");
+        } else if (personalMovieDB.count > 30) {
+            console.log("You are movie fan");
+        } else {
+            console.log("Error occured");
+        }
+    },
+    showMyDB: function(hidden) {
+        if(!hidden) {
+            console.log(personalMovieDB);
+        }
+    },
+    toggleVisibleMyDB: function() {
+        if(personalMovieDB.privat) {
+            personalMovieDB.privat = false;
+        } else {
+            personalMovieDB.privat = true;
+        }
+    },
+    writeYourGenres: function() {
+        for (let i = 1; i < 4; i++) {
+            let genre = prompt(`What is your favourite genre by number ${i}?`);
+            while (genre == null || genre == '') {
+                genre = prompt(`What is your favourite genre by number ${i}?`);
+            }
+            personalMovieDB.genres[i-1] = genre;
+        }
+        personalMovieDB.genres.forEach((item, i) => {
+            console.log(`Favourite genre #${i + 1} - ${item}`);
+        });
     }
-
-    return objCopy;
-}
-
-const numbers = {
-    a: 2,
-    b: 5,
-    c: {
-        x: 7,
-        y: 4
-    }
 };
 
-const newNumbers = copy(numbers);
+// personalMovieDB.start();
 
-newNumbers.a = 10;
-//A deep copy means that all of the values of the new variable are copied and 
-//disconnected from the original variable. 
-//A shallow copy means that certain (sub-)values are still connected 
-//to the original variable.
+// personalMovieDB.detectPersonalLevel();
 
-//if we have embeded objects such copy will be shallow and x = 10 in both objects
-newNumbers.c.x = 10;
-console.log(newNumbers); // { a: 10, b: 5, c: { x: 10, y: 4 } }
-console.log(numbers); // { a: 2, b: 5, c: { x: 10, y: 4 } }
+// personalMovieDB.rememberMyFilms();
 
- const add = {
-     d: 17,
-     e: 20
- };
+// personalMovieDB.showMyDB(personalMovieDB.privat);
 
- // { a: 2, b: 5, c: { x: 10, y: 4 }, d: 17, e: 20 } copy add to numbers
-console.log(Object.assign(numbers, add)); 
-
-//copy add to new object
-const clone = Object.assign({}, add); 
-clone.d = 20;
-console.log(add);
-console.log(clone);
-
-const oldArray = ['a', 'b', 'c'];
-//copy array to new array
-const newArray = oldArray.slice();
-newArray[1] = 'asgdhd';
-console.log(oldArray); // [ 'a', 'b', 'c' ]
-console.log(newArray); // [ 'a', 'asgdhd', 'c' ]
-
-//Spread operator
-
-const video = ['youtube', 'vimeo', 'rutube'],
-      blogs = ['wordpress', 'livejournal', 'blogger'],
-
-      // ... arrayName allows to add all elements to new array
-      internet = [...video, ...blogs, 'vk', 'facebook']; 
-console.log(internet);
-
-function log(a, b, c) {
-    console.log(a);
-    console.log(b);
-    console.log(c);
-}
-
-const num = [2, 5, 7];
-
-//pass three arguments
-log(... num); // 2 5 7
-
-const arr = ['a', 'b'];
-
-const newArr = [...arr]; // [ 'a', 'b' ]
-console.log(newArr);
-
-const q = {
-    one: 1,
-    two: 2,
-};
-
-const newObj = {...q};
-console.log(newObj); // { one: 1, two: 2 }
+// personalMovieDB.writeYourGenres();
