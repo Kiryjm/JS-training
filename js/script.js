@@ -1,57 +1,69 @@
 
 "use strict"; 
 
-// Dynamic typing
+// Interview tasks
 
-// 1) to string
-console.log(typeof(String(null))); 
-console.log(typeof(String(4))); // string
+//•	Какое будет выведено значение: let x = 5; alert( x++ ); ?
 
-// concatenation
-console.log(typeof(5 + '')); // string
+let x = 5;
+alert( x++ ); // 5, but now x = 6
 
-const num = 5;
-console.log("https://vk.com/catalog/" + num); // https://vk.com/catalog/5
+// • Чему равно такое выражение: [ ] + false - null + true ?
 
-const fontSize = 26 + 'px';
+console.log([] + false - null + true ); // NaN
 
-//2) to number
-console.log(typeof(Number('4'))); // number
+// [] turns into "" when + used
+console.log([] + false); // false type: string
+console.log([] + false - null); // NaN type: number
 
-console.log(typeof(+'4')); // number
+//•	Что выведет этот код: let y = 1; let x = y = 2; alert(x); ?
 
-console.log(typeof(parseInt("15px", 10))); // number
+let y = 1;
+let x = y = 2;
+console.log(x); // 2
 
-//All you get from user is a string datatype: from prompt, tag input or textarea, etc.
-let answ = +prompt("Hello", "");
+// •	Чему равна сумма [ ] + 1 + 2?
 
-// To boolean
-// False: 0, '', null, undefined, NaN 
+console.log([] + 1 + 2); //12
 
-let switcher = null; // false
+// •	Что выведет этот код: alert( "1"[0] )?
 
-if (switcher) {
-    console.log('Working...');
-}
+console.log( "1"[0] ); // 1
 
-switcher = 1; // true
+// •	Чему равно 2 && 1 && null && 0 && undefined ?
+// expr1 && expr2: If expr1 can be converted to true, returns expr2; else, returns expr1
 
-if (switcher) {
-    console.log('Working...');
-}
+console.log(2 && 1 && null && 0 && undefined); // null
 
-console.log(typeof(Boolean('4'))); // boolean
+//•	Есть ли разница между выражениями? !!( a && b ) и (a && b)?
 
-console.log(typeof(!"4444")); // boolean
+let a = [],
+    b = 4;
+console.log(!!( a && b )); // true
+console.log( a && b ); // 4
+// Yes, !! operator turns expression into boolean
 
-let exp = "!4444";
-console.log(parseInt(exp, 10));
-console.log(`${exp} is ${typeof(exp)} with value: ${exp.toString()}`);
+// •	Что выведет этот код: alert( null || 2 && 3 || 4 ); ?
+// expr1 || expr12 : If expr1 can be converted to true, returns expr1; else, returns expr2
+// && has greater priority than || !!!!!!!!
 
-console.log(typeof([] + [])); // string
-console.log(typeof([] + ! + [])); // string
-console.log([] + ! + []); // true
-console.log([] + !! + []); // false
+console.log( null || 2 && 3 || 4); // 3
 
+// •	a = [1, 2, 3]; b = [1, 2, 3]; Правда ли что a == b ?
 
+let c = [1, 2, 3],
+    d = [1, 2, 3];
+console.log(c == d); // false
 
+//•	Что выведет этот код: alert( +"Infinity" ); ?
+
+console.log( +"Infinity" ); // Infinity
+
+//•	Верно ли сравнение: "Ёжик" > "яблоко"?
+
+console.log("Ёжик" > "яблоко"); // false
+//Strings compared to each other by symbol
+
+// •	Чему равно 0 || "" || 2 || undefined || true || falsе ?
+
+console.log( 0 || "" || 2 || undefined || true || false ); // 2
