@@ -1,52 +1,58 @@
-/* Задания на урок:
-
-1) Удалить все рекламные блоки со страницы (правая часть сайта)
-
-2) Изменить жанр фильма, поменять "комедия" на "драма"
-
-3) Изменить задний фон постера с фильмом на изображение "bg.jpg". Оно лежит в папке img.
-Реализовать только при помощи JS
-
-4) Список фильмов на странице сформировать на основании данных из этого JS файла.
-Отсортировать их по алфавиту 
-
-5) Добавить нумерацию выведенных фильмов */
-
 'use strict';
 
-const movieDB = {
-    movies: [
-        "Логан",
-        "Лига справедливости",
-        "Ла-ла лэнд",
-        "Одержимость",
-        "Скотт Пилигрим против..."
-    ]
+// Event handlers
+
+const btns = document.querySelectorAll('button'),
+      overlay = document.querySelector('.overlay');
+
+// btn.onclick = function() {
+//     alert('Click');
+// };
+
+// // the last onclick function call will be executed!
+// btn.onclick = function() {
+//     alert('Second click');
+// };
+
+// // two consequtive fucntion call on mouse click will be executed
+// btn.addEventListener('click', () => {
+//     alert('Click');
+// });
+
+// btn.addEventListener('click', () => {
+//     alert('Second click');
+// });
+
+// we can pass event as argument in callback-function to get element data
+// you can get element by accessing target property
+// .type property allows to show type of event happened
+// let i = 0;
+const deleteElement = (e) => {
+    console.log(e.currentTarget);
+    console.log(e.type);
+
+    // i++;
+    // if (i == 1) {
+    //     btn.removeEventListener('click', deleteElement);   
+    // }
 };
 
-const adv = document.querySelectorAll('.promo__adv img'),
-      poster = document.querySelector('.promo__bg'),
-      genre = poster.querySelector('.promo__genre'),
-      movies = document.querySelector('.promo__interactive-list');
+// btn.addEventListener('click', deleteElement);
+// overlay.addEventListener('click', deleteElement);
 
-// delete all adv blocks from right side
-adv.forEach(item => {
-    item.remove();
+// you must add eventListener in loop for pseudo arrays!
+// also you can pass options as argument. e.g. execute cllback once on click
+
+btns.forEach(item => {
+    item.addEventListener('click', deleteElement, {once: true});
 });
 
-// change movie genre from "comedy" to "drama"
-genre.textContent = "ДРАМА";
+const link = document.querySelector('a');
 
-// change background to the bg.img
-poster.style.backgroundImage = "url('img/bg.jpg')";
 
-// dynamically form movies numbered list due to the movieDB object
+link.addEventListener('click', (e) => {
 
-movies.innerHTML = "";
-movieDB.movies.sort();
-movieDB.movies.forEach((item, i) => {
-    movies.innerHTML +=  
-    `<li class="promo__interactive-item">${i+1} ${item}
-        <div class="delete"></div>
-    </li>`;
+    // cancel standard browser behaviour to go href
+    e.preventDefault();
+    console.log(e.target);
 });
