@@ -1,73 +1,52 @@
+/* Задания на урок:
 
-"use strict"; 
+1) Удалить все рекламные блоки со страницы (правая часть сайта)
 
-// Actions with elements from document
+2) Изменить жанр фильма, поменять "комедия" на "драма"
 
-const box = document.getElementById('box'),
-      btns = document.getElementsByTagName('button'),
-      circles = document.getElementsByClassName('circle'),
-      wrapper = document.querySelector('.wrapper'),
-      hearts = wrapper.querySelectorAll('.heart'),
-      oneHeart = wrapper.querySelector('.heart');
+3) Изменить задний фон постера с фильмом на изображение "bg.jpg". Оно лежит в папке img.
+Реализовать только при помощи JS
 
-console.dir(box);
-box.style.backgroundColor = 'blue';
-box.style.width = '500px';
+4) Список фильмов на странице сформировать на основании данных из этого JS файла.
+Отсортировать их по алфавиту 
 
-box.style.cssText = `background-color: blue; width: 500px`;
+5) Добавить нумерацию выведенных фильмов */
 
-btns[1].style.borderRadius = '100%';
-circles[0].style.backgroundColor = 'red';
+'use strict';
 
-// for (let i = 0; i < hearts.length; i++) {
-//     hearts[i].style.backgroundColor = 'blue';
-// }
+const movieDB = {
+    movies: [
+        "Логан",
+        "Лига справедливости",
+        "Ла-ла лэнд",
+        "Одержимость",
+        "Скотт Пилигрим против..."
+    ]
+};
 
-//change style for group of elements
-hearts.forEach(item => {
-    item.style.backgroundColor = 'blue';
+const adv = document.querySelectorAll('.promo__adv img'),
+      poster = document.querySelector('.promo__bg'),
+      genre = poster.querySelector('.promo__genre'),
+      movies = document.querySelector('.promo__interactive-list');
+
+// delete all adv blocks from right side
+adv.forEach(item => {
+    item.remove();
 });
 
-//create DOM element
-const div = document.createElement('div');
-// const text = document.createTextNode('sample text');
+// change movie genre from "comedy" to "drama"
+genre.textContent = "ДРАМА";
 
-div.classList.add('black');
+// change background to the bg.img
+poster.style.backgroundImage = "url('img/bg.jpg')";
 
-//add element div to the end of the document
-document.body.append(div);
+// dynamically form movies numbered list due to the movieDB object
 
-//if element used once, we may not declare variable and append element on-the-fly
-document.querySelector('.wrapper').append(div);
-
-// //add element to the end of the parent element
-// wrapper.append(div);
-// wrapper.appendChild(div);
-
-// //add element to the head of the parent element
-// wrapper.prepend(div);
-
-// //add element before specified element on which we call this method
-// hearts[0].before(div);
-// wrapper.insertBefore(div, hearts[1]);
-
-// //add element after specified element on which we call this method
-// hearts[0].after(div);
-
-// //remove specified element
-// circles[0].remove();
-// wrapper.removeChild(hearts[1]);
-
-// //replace element on which we call this method by specified element
-// hearts[0].replaceWith(circles[0]);
-// wrapper.replaceChild(circles[0], hearts[0]);
-
-//add text/HTML structure to the specified element
-div.innerHTML = "<h1>Hello World</h1>";
-
-// //add text only to the specified element
-// div.textContent = "Hello";
-
-//insert HTML structure using insert position before/after element begin/end
-//this example insert HTML structure outside after specified div element
-div.insertAdjacentHTML("afterend", "<h2>Hello</h2>");
+movies.innerHTML = "";
+movieDB.movies.sort();
+movieDB.movies.forEach((item, i) => {
+    movies.innerHTML +=  
+    `<li class="promo__interactive-item">${i+1} ${item}
+        <div class="delete"></div>
+    </li>`;
+});
