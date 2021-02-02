@@ -1,37 +1,41 @@
 'use strict';
 
-// DOM elements navigation, data-attributes, for/of
+// Mobile browser events
 
-// console.log(document.head);
+// touchstart - when user touch element by finger
+// touchmove - when user move finger after touching element(swipe)
+// touchend - when user ends touching element
+// touchend - when user take a finger off an element
+// touchenter - when user move finger across the screen and getting over an element
+// touchleave - when user move finger out of an element
+// touchcancel - when user don't touch the screen
 
-// // get html tag content
-// console.log(document.documentElement);
+window.addEventListener('DOMContentLoaded', () => {
+    const box = document.querySelector('.box');
 
-// // get all nodes inside parent node
-// // doesn't have analog for getting all elements
-console.log(document.body.childNodes);
+    box.addEventListener('touchstart', (e) => {
+        e.preventDefault();
+        console.log('start');
+        // console.log(e.touches);
+        console.log(e.targetTouches);
+    });
 
-// // get first and last child of body tag
-// console.log(document.body.firstChild);
-// console.log(document.body.lastChild);
-// // get first and last element except text node
-// console.log(document.body.firstElementChild);
-// console.log(document.body.lastElementChild);
+    box.addEventListener('touchmove', (e) => {
+        e.preventDefault();
+        
+        // getting X coordinate of the first finger involved in touchmove event
+        console.log(e.targetTouches[0].pageX);
+    });
 
+    box.addEventListener('touchend', (e) => {
+        e.preventDefault();
+        console.log('end');
+    });
+});
 
+// Additional movile event properties
 
-// // get parent of the parent node of element with id = "current"
-// console.log(document.querySelector('#current').parentNode.parentNode);
-// console.log(document.querySelector('#current').parentElement);
+// touches - getting the list of all fingers touching the screen
+// targetTouches - getting the list of all fingers touching the element
+// changedTouches - getting the list of all fingers involved in event
 
-
-// // data attributes
-// // html attribute writenn in square brackets
-// console.log(document.querySelector('[data-current="3"]').nextElementSibling);
-
-for (let node of document.body.childNodes) {
-    if (node.nodeName == '#text') {
-        continue;
-    }
-    console.log(node);
-}
