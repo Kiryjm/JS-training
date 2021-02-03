@@ -1,41 +1,20 @@
 'use strict';
 
-// Mobile browser events
+// Async, defer, dynamic scripts
 
-// touchstart - when user touch element by finger
-// touchmove - when user move finger after touching element(swipe)
-// touchend - when user ends touching element
-// touchend - when user take a finger off an element
-// touchenter - when user move finger across the screen and getting over an element
-// touchleave - when user move finger out of an element
-// touchcancel - when user don't touch the screen
+const p = document.querySelectorAll('p');
+console.log(p);
 
-window.addEventListener('DOMContentLoaded', () => {
-    const box = document.querySelector('.box');
+// Create script tag and load dynamic script which will be executed 
+// after it will be append to the document.
+// User can change executing order by changing async attribute value
+// by script load synchronizing calling such function
+function loadScript(src) {
+    const script = document.createElement('script');
+    script.src = src;
+    script.async = false;
+    document.body.append(script);
+}
 
-    box.addEventListener('touchstart', (e) => {
-        e.preventDefault();
-        console.log('start');
-        // console.log(e.touches);
-        console.log(e.targetTouches);
-    });
-
-    box.addEventListener('touchmove', (e) => {
-        e.preventDefault();
-        
-        // getting X coordinate of the first finger involved in touchmove event
-        console.log(e.targetTouches[0].pageX);
-    });
-
-    box.addEventListener('touchend', (e) => {
-        e.preventDefault();
-        console.log('end');
-    });
-});
-
-// Additional movile event properties
-
-// touches - getting the list of all fingers touching the screen
-// targetTouches - getting the list of all fingers touching the element
-// changedTouches - getting the list of all fingers involved in event
-
+loadScript('js/test.js');
+loadScript('js/some.js');

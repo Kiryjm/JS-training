@@ -1,26 +1,29 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-	<meta charset="UTF-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<title>Document</title>
-	<style>
-		body {
-			height: 1000px;
-		}
-		.box {
-			width: 150px;
-			height: 100px;
-			background-color: red;
-		}
-	</style>
+	<link rel="stylesheet" href="">
 </head>
 <body>
-	
-	<div class="box">
-		Touch me!
-	</div>
+	<!-- Attribute defer used for working with elements loaded after script.
+	Defer says to browser not to block page after script loading and continue 
+	to render DOM elements.
+	Scripts with such attribute executes in declaration order-->
 
+	<!-- Attribute async: 
+	1) HTML document structure rendering independently from script executing
+	2) DOM events and async scripts loaded independently
+	Using async attribute makes script working in parallel 
+	and executing as soon as he loaded. 
+	User don't know what script will be executed first-->
+
+	<!--Async attribute should be applied to scripts independent from DOM structure 
+	and other scripts!-->
+	<p>Hello world!</p>
+	<p>Second message</p>
 	<script src="js/script.js"></script>
+
 </body>
-</html>
+</html> 
