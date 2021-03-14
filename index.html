@@ -1,29 +1,24 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>Document</title>
-	<link rel="stylesheet" href="">
-</head>
-<body>
-	<!-- Attribute defer used for working with elements loaded after script.
-	Defer says to browser not to block page after script loading and continue 
-	to render DOM elements.
-	Scripts with such attribute executes in declaration order-->
+<html lang="ru">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+   	<title>JavaScript</title>
+   	<link rel="stylesheet" href="css/style.css">
+  </head>
+  <body>
 
-	<!-- Attribute async: 
-	1) HTML document structure rendering independently from script executing
-	2) DOM events and async scripts loaded independently
-	Using async attribute makes script working in parallel 
-	and executing as soon as he loaded. 
-	User don't know what script will be executed first-->
-
-	<!--Async attribute should be applied to scripts independent from DOM structure 
-	and other scripts!-->
-	<p>Hello world!</p>
-	<p>Second message</p>
+    <div id="first" class="btn-block">
+      <button class="blue some"></button>
+      <button></button>
+      <button></button>
+      <button></button>
+      <button></button>
+      <button></button>
+      <button></button>
+      <button></button>
+    </div>
+    
 	<script src="js/script.js"></script>
-
-</body>
-</html> 
+  </body>
+</html>
