@@ -1,41 +1,17 @@
 'use strict';
 
-// Classes
+// Rest operator and default parameters
 
-// methods inside classes don't separates with semicolon!!!
+// rest operator is passed last!
+const log = function(a, b, ...rest) {
+    console.log(a, b, rest);
+};
 
-class Rectangle {
-    constructor(height, width) {
-        this.height = height;
-        this.width = width;
-    }
+log('basic', 'rest', 'operator', 'usage'); // basic rest [ 'operator', 'usage' ]
 
-    calcArea() {
-        return this.height * this.width;
-    }
+// we can pass parameter as argument which has default value
+function calcOrDouble(number, basis = 2) {
+    console.log(number * basis);
 }
 
-class ColoredRectangleWithText extends Rectangle {
-    constructor(height, weight, text, bgColor) {
-        // parent class constructor - super() should always be first 
-        // in children class constructor
-        super(height, weight);
-        this.text = text;
-        this.bgColor = bgColor;
-    }
-
-    showMyProps() {
-        console.log(`Text: ${this.text}, color: ${this.bgColor}`);
-    }
-}
-
-const div = new ColoredRectangleWithText(25, 10, 'Hello', 'cyan');
-
-div.showMyProps(); // Text: Hello, color: cyan
-console.log(div.calcArea()); // 250
-
-const square = new Rectangle(10, 10);
-const long = new Rectangle(30, 100);
-
-console.log(square.calcArea()); // 100
-console.log(long.calcArea()); // 3000
+calcOrDouble(3);
