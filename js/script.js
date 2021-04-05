@@ -1,17 +1,27 @@
 'use strict';
 
-// Rest operator and default parameters
+// JSON format. Object deep clone
 
-// rest operator is passed last!
-const log = function(a, b, ...rest) {
-    console.log(a, b, rest);
+const persone = {
+    name: 'Alex',
+    tel: '+74444444',
+    parents: {
+        mom: 'Vlana',
+        dad: 'Zhuga'
+    }
 };
 
-log('basic', 'rest', 'operator', 'usage'); // basic rest [ 'operator', 'usage' ]
+// stringify() - turns javascript object to JSON format
 
-// we can pass parameter as argument which has default value
-function calcOrDouble(number, basis = 2) {
-    console.log(number * basis);
-}
+console.log(JSON.stringify(persone)); // {"name":"Alex","tel":"+74444444"}
 
-calcOrDouble(3);
+// parse() - turns JSON format came from server into javascript object
+
+console.log(JSON.parse(JSON.stringify(persone))); // { name: 'Alex', tel: '+74444444' }
+
+//deep clone
+const clone = JSON.parse(JSON.stringify(persone));
+clone.parents.mom = 'Ann';
+
+console.log(persone); // ... mom: 'Vlana' ...
+console.log(clone); // ... mom: 'Ann' ...
