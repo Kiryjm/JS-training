@@ -128,11 +128,13 @@ window.addEventListener('DOMContentLoaded', () => {
         document.body.style.overflow = '';
     }
 
-    modal.addEventListener('click', (e) => {
+    function modalClickCallback(e) {
         if (e.target === modal || e.target.getAttribute('data-close') == "") {
             closeModal();
         }
-    });
+    }
+    
+    modal.addEventListener('click', modalClickCallback);
 
     // to close modal window on esc use event code
     document.addEventListener('keydown', (e) => {
@@ -286,8 +288,9 @@ window.addEventListener('DOMContentLoaded', () => {
         });
     }
 
+    const prevModalDialog = document.querySelector('.modal__dialog');
+
     function showThanksModal(message) {
-        const prevModalDialog = document.querySelector('.modal__dialog');
         prevModalDialog.classList.add('hide');
         openModal();
 
@@ -301,11 +304,22 @@ window.addEventListener('DOMContentLoaded', () => {
         `;
 
         document.querySelector('.modal').append(thanksModal);
-        setTimeout(() => {
-            thanksModal.remove();
-            prevModalDialog.classList.add('show');
-            prevModalDialog.classList.remove('hide');
-            closeModal();
-        }, 4000);
+
+        function modalClearCallback(e) {
+                modalClickCallback(e);
+                thanksModalremove();
+                clearTimeout(thanksModalTimeout);
+        }
+   
+        modal.addEventListener('click', modalClearCallback, {once : true});
+         
+        function thanksModalremove () {
+                thanksModal.remove();
+                prevModalDialog.classList.add('show');
+                prevModalDialog.classList.remove('hide');
+                closeModal();
+                modal.removeEventListener('click', modalClearCallback);
+        }
+        const thanksModalTimeout = setTimeout(thanksModalremove, 4000);
     }
 });
