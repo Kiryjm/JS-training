@@ -2,8 +2,6 @@
 
 // Promises
 
-// console.log('Data request...');
-
 // Promise gets executor function with two callbacks - resolve and reject functions
 
 // resolve executes when our executor function logic executes without errors
@@ -13,6 +11,8 @@
 // catch() method called on promise executes in that case using reject function as an argument
 
 // finally() method executes anyway
+
+console.log('Data request...');
 
 const req = new Promise((resolve, reject) => {
     setTimeout(() => {
