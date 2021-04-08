@@ -1,45 +1,70 @@
 'use strict';
 
-// Asynchronous tasks and server communication using AJAX.
+// Promises
 
-// AJAX - asynchronous javascript and xml
-// technology used to make http requests to server and reload only specified page elements
+// console.log('Data request...');
 
+// Promise gets executor function with two callbacks - resolve and reject functions
 
-const inputRub = document.querySelector('#rub'),
-      inputUsd = document.querySelector('#usd');
+// resolve executes when our executor function logic executes without errors
+// then() method called on promise executes in that case using resolve function as an argument
 
-// input event occurs each time some data was typed or deleted from form
-// change event occurs when element lost its focus 
-inputRub.addEventListener('input', () => {
+// reject executes when we got error while executor function logic execution
+// catch() method called on promise executes in that case using reject function as an argument
 
-    // Old object version XMLHttpRequest for working with AJAX
-    const request = new XMLHttpRequest();
+// finally() method executes anyway
 
-    // request type passes in uppercase
-    request.open('GET', 'js/current.json');
+const req = new Promise((resolve, reject) => {
+    setTimeout(() => {
+        console.log('Data preparation...');
+    
+        const product = {
+            name: 'TV',
+            price: 2000
+        };
+    
+        resolve(product);
 
-    // set request header to inform transfer protocols about sending data type and encoding
-    request.setRequestHeader('Content-type', 'application/json; charset=utf-8');
+    }, 2000);
+});
 
-    // request sending depending of http request type. If it's POSt we passes argument body
-    request.send();
-
-    // readystatechange event occurs when request state is changed
-    // this event observes readyState property
-    // load event occurs when response is ready
-    request.addEventListener('load', () => {
-        if (request.status === 200) {
-            console.log(request.response);
-            const data = JSON.parse(request.response);
-            inputUsd.value = (+inputRub.value / data.current.usd).toFixed(2);
-        } else {
-            inputUsd.value = "Something went wrong";
-        }
+req.then((product) => {
+    return new Promise((resolve, reject) => {
+        setTimeout(() => {
+            product.status = 'order';
+            resolve(product);
+        }, 2000);
     });
+}).then(data => {
+    data.modify = true;
+    return data;
+}).then(data => {
+    console.log(data);
+}).catch(() => {
+    console.error('An error is occured!');
+}).finally(() => {
+    console.log('Finally');
+});
 
-    // response status - number
-    // statusText - text after number
-    // response - server response
-    // readyState - number from 0 to 4. Contains current state of our request
+// Promise.all() and Promise.race()
+
+const test = time => {
+    return new Promise(resolve => {
+        setTimeout(() => resolve(), time);
+    });  
+};
+
+// test(1000).then(() => console.log('1000 ms'));
+// test(2000).then(() => console.log('2000 ms'));
+
+// Promise.all() is used to be convinced all our passed promises are executed 
+// sucessfully and execute then() or catch() if one of our promises executes with errors
+Promise.all([test(1000), test(2000)]).then(() => {
+    console.log('All');
+});
+
+// Promise.race() is used to identify what promise resolves or rejects first 
+// and due to this first executed promise it executes then() or catch() respectively
+Promise.race([test(1000), test(2000)]).then(() => {
+    console.log('All');
 });
