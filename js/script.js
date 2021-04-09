@@ -256,12 +256,8 @@ window.addEventListener('DOMContentLoaded', () => {
             
             form.insertAdjacentElement('afterend', statusMessage);
 
-            const request = new XMLHttpRequest();
-            request.open('POST', 'server.php');
-
             // to pass data to server in JSON format 
             // use content-type application/json in header
-            request.setRequestHeader('Content-type', 'application/json; charset=utf-8');
             const formData = new FormData(form);
 
             // converting data from FormData to JSON
@@ -271,19 +267,23 @@ window.addEventListener('DOMContentLoaded', () => {
                 object[key] = value;
             });
 
-            const json = JSON.stringify(object);
-
-            request.send(json);
-
-            request.addEventListener('load', () => {
-                if (request.status === 200) {
-                    console.log(request.response);
-                    showThanksModal(message.success);
-                    statusMessage.remove();
-                    form.reset();
-                } else {
-                    showThanksModal(message.failure);
-                }
+            fetch('server1.php', {
+                method: 'POST',
+                headers: {
+                    'Content-type': 'applications/json'
+                },
+                body: JSON.stringify(object)
+            })
+            .then(data => data.text())
+            .then(data => {
+                console.log(data);
+                showThanksModal(message.success);
+                form.reset();
+                statusMessage.remove();
+            }).catch(() => {
+                showThanksModal(message.failure);
+            }).finally(() => {
+                form.reset();
             });
         });
     }
