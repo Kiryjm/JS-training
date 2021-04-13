@@ -208,42 +208,20 @@ window.addEventListener('DOMContentLoaded', () => {
         return await res.json();
     };
 
-    // 1 way to receive MenuItem from db.json:
-    // use new class instance creation
-    // for elements that will be created many times and fit to be templated
-    getData('http://localhost:3000/menu')
+
+    // getData('http://localhost:3000/menu')
+    //     .then(data => {
+            // data.forEach(({img, alt, title, descr, price}) => {
+            //     new MenuItem(img, alt, title, descr, price, '.menu .container').render();
+            // });
+    //     });
+
+    axios.get('http://localhost:3000/menu')
         .then(data => {
-            data.forEach(({img, alt, title, descr, price}) => {
+            data.data.forEach(({img, alt, title, descr, price}) => {
                 new MenuItem(img, alt, title, descr, price, '.menu .container').render();
             });
         });
-
-    // // 2 way to receive MenuItem from db.json:
-    // // dynamically create layout with received information
-    // // use when we want to render elements that will be created once
-    // getData('http://localhost:3000/menu')
-    //     .then(data => createCard(data));
-
-    // function createCard(data) {
-    //     data.forEach(({img, alt, title, descr, price}) => {
-    //         const element = document.createElement('div');
-    //         const transfer = 27;
-
-    //         element.classList.add('menu__item');
-    //         element.innerHTML = `
-    //             <img src= ${img} alt=${alt}>
-    //             <h3 class="menu__item-subtitle">${title}</h3>
-    //             <div class="menu__item-descr">${descr}</div>
-    //             <div class="menu__item-divider"></div>
-    //             <div class="menu__item-price">
-    //                 <div class="menu__item-cost">Цена:</div>
-    //                 <div class="menu__item-total"><span>${price*transfer}</span> грн/день</div>
-    //             </div>
-    //         `;
-
-    //         document.querySelector('.menu .container').append(element);
-    //     });
-    // }
 
     // setting data forms from modal window to post data to server
 
