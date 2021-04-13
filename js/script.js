@@ -198,34 +198,52 @@ window.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    new MenuItem(
-        "img/tabs/vegy.jpg",
-        "vegy",
-        'Меню "Фитнес"',
-        'Меню "Фитнес" - это новый подход к приготовлению блюд: больше свежих овощей и фруктов. Продукт активных и здоровых людей. Это абсолютно новый продукт с оптимальной ценой и высоким качеством!',
-        9,
-        '.menu .container',
-    ).render();
+    const getData = async (url) => {
+        const res = await fetch(url);
 
-    new MenuItem(
-        "img/tabs/post.jpg",
-        "post",
-        'Меню "Постное"',
-        'Меню “Постное” - это тщательный подбор ингредиентов: полное отсутствие продуктов животного происхождения, молоко из миндаля, овса, кокоса или гречки, правильное количество белков за счет тофу и импортных вегетарианских стейков.',
-        14,
-        ".menu .container",
-        'menu__item'
-    ).render();
+        if (!res.ok) {
+            throw new Error(`Could not fetch ${url}, status: ${res.status}`);
+        }
 
-    new MenuItem(
-        "img/tabs/elite.jpg",
-        "elite",
-        'Меню “Премиум”',
-        'В меню “Премиум” мы используем не только красивый дизайн упаковки, но и качественное исполнение блюд. Красная рыба, морепродукты, фрукты - ресторанное меню без похода в ресторан!',
-        21,
-        ".menu .container",
-        'menu__item'
-    ).render();
+        return await res.json();
+    };
+
+    // 1 way to receive MenuItem from db.json:
+    // use new class instance creation
+    // for elements that will be created many times and fit to be templated
+    getData('http://localhost:3000/menu')
+        .then(data => {
+            data.forEach(({img, alt, title, descr, price}) => {
+                new MenuItem(img, alt, title, descr, price, '.menu .container').render();
+            });
+        });
+
+    // // 2 way to receive MenuItem from db.json:
+    // // dynamically create layout with received information
+    // // use when we want to render elements that will be created once
+    // getData('http://localhost:3000/menu')
+    //     .then(data => createCard(data));
+
+    // function createCard(data) {
+    //     data.forEach(({img, alt, title, descr, price}) => {
+    //         const element = document.createElement('div');
+    //         const transfer = 27;
+
+    //         element.classList.add('menu__item');
+    //         element.innerHTML = `
+    //             <img src= ${img} alt=${alt}>
+    //             <h3 class="menu__item-subtitle">${title}</h3>
+    //             <div class="menu__item-descr">${descr}</div>
+    //             <div class="menu__item-divider"></div>
+    //             <div class="menu__item-price">
+    //                 <div class="menu__item-cost">Цена:</div>
+    //                 <div class="menu__item-total"><span>${price*transfer}</span> грн/день</div>
+    //             </div>
+    //         `;
+
+    //         document.querySelector('.menu .container').append(element);
+    //     });
+    // }
 
     // setting data forms from modal window to post data to server
 
@@ -238,10 +256,22 @@ window.addEventListener('DOMContentLoaded', () => {
     };
 
     forms.forEach(item => {
-        postData(item);
+        bindPostData(item);
     });
 
-    function postData(form) {
+    const postData = async (url, data) => {
+        const res = await fetch(url, {
+            method: 'POST',
+                headers: {
+                    'Content-type': 'application/json'
+                },
+                body: data
+        });
+
+        return await res.json();
+    };
+
+    function bindPostData(form) {
         form.addEventListener('submit', (e) => {
             // preventing default behaviour of button element attribute type submit:
             // to reload page
@@ -260,25 +290,14 @@ window.addEventListener('DOMContentLoaded', () => {
             // use content-type application/json in header
             const formData = new FormData(form);
 
-            // converting data from FormData to JSON
-            const object = {};
-            // value - <input> name attribute value, key - user typed text
-            formData.forEach((value, key) => {
-                object[key] = value;
-            });
+            // method entries() returns array of arrays as properties key-value pairs
+            // method fromEntries turn array of props key-value arrays into object
+            const json = JSON.stringify(Object.fromEntries(formData.entries()));
 
-            fetch('server1.php', {
-                method: 'POST',
-                headers: {
-                    'Content-type': 'applications/json'
-                },
-                body: JSON.stringify(object)
-            })
-            .then(data => data.text())
+            postData('http://localhost:3000/requests', json)
             .then(data => {
                 console.log(data);
                 showThanksModal(message.success);
-                form.reset();
                 statusMessage.remove();
             }).catch(() => {
                 showThanksModal(message.failure);
