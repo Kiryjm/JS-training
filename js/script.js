@@ -323,4 +323,47 @@ window.addEventListener('DOMContentLoaded', () => {
     fetch('http://localhost:3000/menu')
         .then(data => data.json())
         .then(res => console.log(res));
+
+        
+    // Slider
+    
+    const slider = document.querySelector('.offer__slider'),
+          slides = slider.querySelectorAll('.offer__slide'),
+          sliderCounter = slider.querySelector('.offer__slider-counter'),
+          left = sliderCounter.querySelector('.offer__slider-prev'),
+          right = sliderCounter.querySelector('.offer__slider-next'),
+          current = sliderCounter.querySelector('#current'),
+          total = sliderCounter.querySelector('#total');
+    let slideIndex = 1;
+
+    showSlides(slideIndex);
+
+    total.textContent = `${getZero(slides.length)}`;
+
+    function showSlides(index) {
+        if (index > slides.length) {
+            slideIndex = 1;
+        }
+
+        if (index < 1) {
+            slideIndex = slides.length;
+        }
+
+        slides.forEach(item => item.style.display = 'none');
+        slides[slideIndex - 1].style.display = 'block';
+        current.textContent = `${getZero(slideIndex)}`;
+    }
+
+    function changeSlides(index) {
+        showSlides(slideIndex += index);
+    }
+
+    left.addEventListener('click', () => {
+        changeSlides(-1);
+    });
+
+    right.addEventListener('click', () => {
+        changeSlides(1);
+    });
+
 });
