@@ -1,59 +1,58 @@
 'use strict';
 
-// LocalStorage
+// Regular expressions
 
-// // setting new key-value pair
+// RegExp consist of two parts: pattern and flags.
+// Pattern is like symbol mask of what we want to find/delete/etc.
 
-// localStorage.setItem('number', 5);
+// new RegExp('pattern', 'flags'); // old version
+// /pattern/f; // modern version
 
-// // get data from localStorage by key
+const ans = prompt('Введите ваше число');
 
-// console.log(localStorage.getItem('number')); // 5
+const reg = /\d/g;
 
-// // removing data from localStorage
+// mregexp method test() returns boolean whether passed string contains regexp pattern
+console.log(reg.test(ans)); 
 
-// localStorage.removeItem('number'); // if we remove data before it retrieving, result will be null
+console.log(ans.match(reg));
 
-// // clear localStorage completely
+const str = 'My name is R2D2';
+console.log(str.match(/\D/ig));
 
-// localStorage.clear();
+// classes in regexp:
+// \d - digits
+// \w - words, letters
+// \s - spaces
 
-const checkbox = document.querySelector('#checkbox'),
-      form = document.querySelector('form'),
-      change = document.querySelector('#color');
+// Reverse classes in regexp:
+// \D - non digits
+// \W - non eords, letters
+// \S - non spaces
 
-// if localStorage has key isChecked with value true, make checkbox be checked
-if (localStorage.getItem('isChecked')) {
-    checkbox.checked = true;
-}
+// flags: may be combined together
+// i - ignore capitalization
+// g - global. For searching many entries
+// m - multiline mode search 
 
-if (localStorage.getItem('bg') === 'changed') {
-    form.style.backgroundColor = 'red';
-}
 
-checkbox.addEventListener('change', () => {
-    localStorage.setItem('isChecked', true);
-});
+// search() method returns position number of found substrings
+// -1 if no substrings were found
+console.log(ans.search(reg)); 
 
-change.addEventListener('click', () => {
-    if (localStorage.getItem('bg') === 'changed') {
-        localStorage.removeItem('bg');
-        form.style.backgroundColor = '#fff';
-    } else {
-        localStorage.setItem('bg', 'changed');
-        form.style.backgroundColor = 'red';
-    }
-});
+// match() method returns array of found substring, its index, string for searching
+// or null in case of substring was not found
+console.log(ans.match(reg)); 
 
-// to store objects in localStorage you should convert them to JSON format
-// otherwise we will get value [object Object]
+const pass = prompt('Password');
 
-const persone = {
-    name: 'Alex',
-    age: 25
-};
+// replace() method has 2 arguments: 
+// modified string and string with text to replace for every match
+// Dot /./ in regexp is every symbol in string
+console.log(pass.replace(/./g, "*"));
 
-const serializedPersone = JSON.stringify(persone);
-localStorage.setItem('Alex', serializedPersone);
+// To shield symbol we must write backslash!
+console.log(pass.replace(/\./g, "*"));
 
-console.log(JSON.parse(localStorage.getItem('Alex')));
+console.log('12-34-56'.replace(/-/g, ':'));
+
