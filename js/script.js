@@ -1,58 +1,75 @@
 'use strict';
 
-// Regular expressions
+// Getters/setters (object properties)
 
-// RegExp consist of two parts: pattern and flags.
-// Pattern is like symbol mask of what we want to find/delete/etc.
+// Getter and setter - accessor properties
+// When We call them we don't use brackets as in case of method!
+// When We call setter we use = to assign sum parameter as setter argument!
 
-// new RegExp('pattern', 'flags'); // old version
-// /pattern/f; // modern version
+const person = {
+    name: "Alex",
+    age: 27,
 
-const ans = prompt('Введите ваше число');
+    get userAge() {
+        return this.age;
+    },
 
-const reg = /\d/g;
+    set userAge(num) {
+        this.age = num;
+    }
+};
 
-// mregexp method test() returns boolean whether passed string contains regexp pattern
-console.log(reg.test(ans)); 
-
-console.log(ans.match(reg));
-
-const str = 'My name is R2D2';
-console.log(str.match(/\D/ig));
-
-// classes in regexp:
-// \d - digits
-// \w - words, letters
-// \s - spaces
-
-// Reverse classes in regexp:
-// \D - non digits
-// \W - non eords, letters
-// \S - non spaces
-
-// flags: may be combined together
-// i - ignore capitalization
-// g - global. For searching many entries
-// m - multiline mode search 
+console.log(person.userAge); // 27
+console.log(person.userAge = 30); // 30
 
 
-// search() method returns position number of found substrings
-// -1 if no substrings were found
-console.log(ans.search(reg)); 
+// Incapsulation
+// we can use let variables for object props and getters/setters to make props more private
+// we can use #prop_name syntaxis to make prop private
 
-// match() method returns array of found substring, its index, string for searching
-// or null in case of substring was not found
-console.log(ans.match(reg)); 
+class User {
 
-const pass = prompt('Password');
+    constructor(name, age) {
+        this.name = name;
+        this._age = age;
+    }
 
-// replace() method has 2 arguments: 
-// modified string and string with text to replace for every match
-// Dot /./ in regexp is every symbol in string
-console.log(pass.replace(/./g, "*"));
+    #surname = 'Pavlov';
+    
+    say() {
+        console.log(`User name: ${this.name} ${this.#surname}, age ${this._age}`);
+    }
 
-// To shield symbol we must write backslash!
-console.log(pass.replace(/\./g, "*"));
+    get age() {
+        return this._age;
+    }
 
-console.log('12-34-56'.replace(/-/g, ':'));
+    set age(age) {
+        if (typeof(age) === 'number' && age > 0 && age < 110) {
+            this._age = age;
+        } else {
+            console.log('Forbidden value!');
+        }
+    }
 
+    get userSurname() {
+        return this.#surname;
+    }
+
+    set userSurname(surname) {
+        this.#surname = surname;
+    }
+}
+
+const ivan = new User('Ivan', 27);
+console.log(ivan._age); // 27
+ivan._age = 99;
+console.log(ivan.age); // 99
+
+ivan.age = 30;
+ivan.age = 300; // Forbidden value!
+console.log(ivan.age); // 30
+console.log(ivan.userSurname); // Pavlov
+ivan.userSurname = 'Drago';
+console.log(ivan.userSurname); // Drago
+ivan.say(); // User name: Ivan Drago, age 27
