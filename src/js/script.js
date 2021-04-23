@@ -1,16 +1,25 @@
 'use strict';
 
-// Webpack
+// ES6 modules
 
-// Browser can't recognize our project module system and compile modules. 
-// We need utility to pack all modules in one result file for proper 
-// browser behaviour while scripts execution.
-// Webpack is utility for compiling scripts and modules, 
-// configuring projects, process styles and pictures, form folders.
+import {one, two} from './main.js';
+import sayDefHi from './main.js';
 
-const myModule = require('./main.js');
+// we can use alias for imported long name data
+// or use * to import all from module
 
-const myModuleInstance = new myModule();
+// To say browser consequentially add script files use type='module' in index.html
+// and use fileName.js syntax in improt statement!
 
-myModuleInstance.hello();
-myModuleInstance.goodbye();
+import {one as first} from './main.js';
+import * as data from './main.js';
+
+// // If we use webpack compiled bundle.js in script tag index.html
+// // we use fileName without .js in import statement!
+
+// import {one as first} from './main.js';
+// import * as data from './main.js';
+
+console.log(`${first} and ${two}`);
+data.sayHi();
+sayDefHi();
