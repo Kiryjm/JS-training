@@ -1,4 +1,4 @@
-function slider() {
+function slider({container, slide, nextArrow, prevArrow, totalCounter, currentCounter, wrapper, field}) {
     // Slider
 
     function getZero(num) {
@@ -9,15 +9,14 @@ function slider() {
         }
     }
     
-    const slider = document.querySelector('.offer__slider'),
-          slides = slider.querySelectorAll('.offer__slide'),
-          sliderCounter = slider.querySelector('.offer__slider-counter'),
-          left = sliderCounter.querySelector('.offer__slider-prev'),
-          right = sliderCounter.querySelector('.offer__slider-next'),
-          current = sliderCounter.querySelector('#current'),
-          total = sliderCounter.querySelector('#total'),
-          slidesWrapper = slider.querySelector('.offer__slider-wrapper'),
-          slidesField = slidesWrapper.querySelector('.offer__slider-inner'),
+    const slider = document.querySelector(container),
+          slides = slider.querySelectorAll(slide),
+          left = document.querySelector(prevArrow),
+          right = document.querySelector(nextArrow),
+          current = document.querySelector(currentCounter),
+          total = document.querySelector(totalCounter),
+          slidesWrapper = slider.querySelector(wrapper),
+          slidesField = slidesWrapper.querySelector(field),
           width = window.getComputedStyle(slidesWrapper).width,
           indicators = document.createElement('ol'),
           dots = [];
@@ -144,4 +143,4 @@ function slider() {
     });
 }
 
-module.exports = slider;
+export default slider;

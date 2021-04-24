@@ -1,7 +1,11 @@
-function forms() {
+import {openModal, closeModal} from './modal';
+import {postData} from '../services/services';
+
+function forms(formSelector, modalSelector, modalTimerId) {
     // setting data forms from modal window to post data to server
 
-    const forms = document.querySelectorAll('form');
+    const forms = document.querySelectorAll(formSelector),
+          modal = document.querySelector(modalSelector);
 
     const message = {
         loading: 'img/form/spinner.svg',
@@ -12,18 +16,6 @@ function forms() {
     forms.forEach(item => {
         bindPostData(item);
     });
-
-    const postData = async (url, data) => {
-        const res = await fetch(url, {
-            method: 'POST',
-                headers: {
-                    'Content-type': 'application/json'
-                },
-                body: data
-        });
-
-        return await res.json();
-    };
 
     function bindPostData(form) {
         form.addEventListener('submit', (e) => {
@@ -65,7 +57,7 @@ function forms() {
 
     function showThanksModal(message) {
         prevModalDialog.classList.add('hide');
-        openModal();
+        openModal('.modal', modalTimerId);
 
         const thanksModal = document.createElement('div');
         thanksModal.classList.add('modal__dialog');
@@ -79,7 +71,9 @@ function forms() {
         document.querySelector('.modal').append(thanksModal);
 
         function modalClearCallback(e) {
-                modalClickCallback(e);
+            if (e.target === modal || e.target.getAttribute('data-close') == "") {
+                closeModal(modalSelector);
+            }
                 thanksModalremove();
                 clearTimeout(thanksModalTimeout);
         }
@@ -87,14 +81,14 @@ function forms() {
         modal.addEventListener('click', modalClearCallback, {once : true});
          
         function thanksModalremove () {
-                thanksModal.remove();
-                prevModalDialog.classList.add('show');
-                prevModalDialog.classList.remove('hide');
-                closeModal();
-                modal.removeEventListener('click', modalClearCallback);
+            thanksModal.remove();
+            prevModalDialog.classList.add('show');
+            prevModalDialog.classList.remove('hide');
+            closeModal('.modal');
+            modal.removeEventListener('click', modalClearCallback);
         }
         const thanksModalTimeout = setTimeout(thanksModalremove, 4000);
     } 
 }
 
-module.exports = forms;
+export default forms;

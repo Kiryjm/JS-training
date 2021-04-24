@@ -1,8 +1,6 @@
- function timer() {
+ function timer(id, deadline) {
 
     // Timer
-
-    const deadline = '2021-05-11';
 
     function getTimeRemaining(endtime) {
         const timeDiff = Date.parse(endtime) - Date.parse(new Date()),
@@ -54,8 +52,9 @@
             }
         }
     }
-    setClock('.timer', deadline);
+    setClock(id, deadline);
  }
 
- module.exports = timer;
+ export default timer;
+
  
