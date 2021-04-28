@@ -8,7 +8,26 @@
   },
   "author": "",
   "license": "ISC",
+  "browserslist": [
+    "> 0.2%"
+  ],
   "devDependencies": {
+    "@babel/cli": "^7.13.16",
+    "@babel/core": "^7.13.16",
+    "@babel/preset-env": "^7.13.15",
+    "babel-loader": "^8.2.2",
+    "core-js": "^3.11.0",
     "json-server": "^0.16.3"
+  },
+  "dependencies": {
+    "@babel/polyfill": "^7.12.1",
+    "dom-node-polyfills": "^1.0.0",
+    "es6-promise": "^4.2.8",
+    "es7-object-polyfill": "^1.0.1",
+    "for-each": "^0.3.3",
+    "formdata-polyfill": "^3.0.20",
+    "nodelist-foreach-polyfill": "^1.2.0",
+    "promise": "^8.1.0",
+    "whatwg-fetch": "^3.6.2"
   }
 }

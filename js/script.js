@@ -1,3 +1,12 @@
+require('es6-promise').polyfill();
+import 'nodelist-foreach-polyfill';
+import 'dom-node-polyfills';
+import 'whatwg-fetch';
+require ('es7-object-polyfill');
+import "core-js/stable/symbol";
+require('formdata-polyfill');
+
+
 import tabs from './modules/tabs';
 import modal from './modules/modal';
 import timer from './modules/timer';
