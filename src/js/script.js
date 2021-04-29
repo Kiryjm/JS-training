@@ -1,67 +1,47 @@
 'use strict';
 
-// Try/catch/finally. Errors handling
+// Function generator
 
-// Try/catch wrapped code block stops executing after error in try block
-// and executes instead catch block
-// outer code is still executing despite error in try block
-// try/catch is used to hanlde errors exactly in wrapped by it block code
-
-try {
-    console.log('Normal');
-    console.log(a);
-    console.log('result');
-} catch(e) {
-    console.log(e);
-}
-console.log('Still normal');  
-// Normal
-// Error
-// Still normal
-
-
-// We can handle error object in catch block by properties:
-// name - error type name
-// message - printed message
-// stack - all functions and stack of scripts that made this error happened
-try {
-    console.log('Normal'); // Normal
-    console.log(a);
-    console.log('result');
-} catch(e) {               // Browser console: 
-    console.log(e.name);  // ReferenceError
-    console.log(e.message); // a is not defined
-    console.log(e.stack); // ReferenceError: a is not defined at script.js:28
+// Function generator returns result consistently: each time result changing
+// due to keyword yield 
+function* generator() {
+    yield 'S';
+    yield 'c';
+    yield 'r';
+    yield 'i';
+    yield 'p';
+    yield 't';
 }
 
+const str = generator();
 
-// finally code block executes in both way any error happened in try block code or not
-// it used to complete started in try code block operations in any case 
+// // done: true/false - generator completed/non completed
+// // next() method calls next yield
+// console.log(str.next()); // { value: 'S', done: false }
+// console.log(str.next()); // { value: 'c', done: false }
+// console.log(str.next()); // { value: 'r', done: false }
+// console.log(str.next()); // { value: 'i', done: false }
+// console.log(str.next()); // { value: 'p', done: false }
+// console.log(str.next()); // { value: 't', done: false }
+// console.log(str.next()); // { value: undefined, done: true }
 
+// // to get value from yield instead of object
+// // use next() property value
+// console.log(str.next().value); // S
 
-try {
-    console.log('Normal'); // Normal
-    console.log(a);
-    console.log('result');
-} catch(e) {               // Browser console: 
-    console.log(e.name);  // ReferenceError
-    console.log(e.message); // a is not defined
-    console.log(e.stack); // ReferenceError: a is not defined at script.js:28
-} finally {
-    // code executes anyway to complete started operations in any case
+function* count(n) {
+    for (let i = 0; i < n; i++) {
+        yield i;
+    }
 }
 
-
-// To work with multipage sites we can check if page contains required element
-// using try/catch and handling corresponding errors to continue executing 
-// remaining script 
-
-try {
-    document.querySelector('.active').addEventListener('click', () => {
-        console.log('click');
-    });
-} catch (e) {
-    console.log(e);
+// execute generator function passed count() argument times
+for (let k of count(7)) {
+    console.log(k);  // 0 1 2 3 4 5 6
 }
 
-console.log('normal');
+const counter = count(7);
+
+// console.log(counter.next().value); // 0
+// console.log(counter.next().value); // 1
+// console.log(counter.next().value); // 2
