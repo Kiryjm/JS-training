@@ -1,47 +1,46 @@
 'use strict';
 
-// Function generator
+// JS animations and requestAnimationFrame
 
-// Function generator returns result consistently: each time result changing
-// due to keyword yield 
-function* generator() {
-    yield 'S';
-    yield 'c';
-    yield 'r';
-    yield 'i';
-    yield 'p';
-    yield 't';
-}
+// requestAnimationFrame allows to execute functions as animations
+// setting up our animation to the browser updating frequency 
+// minimizing browser load
 
-const str = generator();
+// requestAnimationFrame executes multiple animation simultaneously
 
-// // done: true/false - generator completed/non completed
-// // next() method calls next yield
-// console.log(str.next()); // { value: 'S', done: false }
-// console.log(str.next()); // { value: 'c', done: false }
-// console.log(str.next()); // { value: 'r', done: false }
-// console.log(str.next()); // { value: 'i', done: false }
-// console.log(str.next()); // { value: 'p', done: false }
-// console.log(str.next()); // { value: 't', done: false }
-// console.log(str.next()); // { value: undefined, done: true }
+const btn = document.querySelector('.btn'),
+      elem = document.querySelector('.box');  
+let pos = 0;
 
-// // to get value from yield instead of object
-// // use next() property value
-// console.log(str.next().value); // S
+// using hardcoded number of function calls every 10ms
 
-function* count(n) {
-    for (let i = 0; i < n; i++) {
-        yield i;
+// function myAnimation() {
+//     let pos = 0;
+
+//     const id = setInterval(frame, 10);
+//     function frame() {
+//         if (pos == 300) {
+//             clearInterval(id);
+//         } else {
+//             pos++;
+//             elem.style.top = pos + "px";
+//             elem.style.left = pos + 'px';
+//         }
+//     }
+// }
+
+// using optimized animation call
+function myAnimation() {
+    pos++;
+    elem.style.top = pos + "px";
+    elem.style.left = pos + 'px';
+
+    if (pos < 300) {
+        requestAnimationFrame(myAnimation);
     }
 }
 
-// execute generator function passed count() argument times
-for (let k of count(7)) {
-    console.log(k);  // 0 1 2 3 4 5 6
-}
+btn.addEventListener('click', () => requestAnimationFrame(myAnimation));
 
-const counter = count(7);
-
-// console.log(counter.next().value); // 0
-// console.log(counter.next().value); // 1
-// console.log(counter.next().value); // 2
+let id = requestAnimationFrame(myAnimation);
+cancelAnimationFrame(id);

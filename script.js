@@ -1,29 +1,33 @@
-import $ from 'jquery';
-import 'hoverintent';
+const btn = document.querySelector('.btn'),
+      elem = document.querySelector('.box');  
+let pos = 0;
 
-// JQuery
+// function myAnimation() {
+//     let pos = 0;
 
-$(function () {
-    // adding class 'active' to the selected element on mouse hover
-    $('.list-item:first').hover(function () {
-        $(this).toggleClass('active');
-    });
+//     const id = setInterval(frame, 10);
+//     function frame() {
+//         if (pos == 300) {
+//             clearInterval(id);
+//         } else {
+//             pos++;
+//             elem.style.top = pos + "px";
+//             elem.style.left = pos + 'px';
+//         }
+//     }
+// }
 
-    // adding eventListener on 3rd list element click 
-    // which slowly hides all even images
-    $('.list-item:eq(2)').on('click', function() {
-        $('.image:even').fadeToggle('slow');
-    });
+function myAnimation() {
+    pos++;
+    elem.style.top = pos + "px";
+    elem.style.left = pos + 'px';
 
-    // adding eventListener on 5th list element click 
-    // which confirms custom animation to the all odd images
-    $('.list-item:eq(4)').on('click', function() {
-        $('.image:odd').animate({
-            opacity: 'toggle',
-            height: 'toggle'
-        }, 2000);
-    });
-});
+    if (pos < 300) {
+        requestAnimationFrame(myAnimation);
+    }
+}
 
+btn.addEventListener('click', () => requestAnimationFrame(myAnimation));
 
-
+let id = requestAnimationFrame(myAnimation);
+cancelAnimationFrame(id);
