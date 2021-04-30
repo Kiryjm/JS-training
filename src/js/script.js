@@ -1,46 +1,44 @@
 'use strict';
 
-// JS animations and requestAnimationFrame
+// Stack event loop. Web Apis
 
-// requestAnimationFrame allows to execute functions as animations
-// setting up our animation to the browser updating frequency 
-// minimizing browser load
+console.log(1);
 
-// requestAnimationFrame executes multiple animation simultaneously
+setTimeout(() => {
+    console.log('timeout 2s');
+}, 4000);
 
-const btn = document.querySelector('.btn'),
-      elem = document.querySelector('.box');  
-let pos = 0;
+setTimeout(() => {
+    console.log('timeout 4s');
+}, 4000);
 
-// using hardcoded number of function calls every 10ms
+console.log(2);  // total output: 1 2 timeout 2s timeout 4s
 
-// function myAnimation() {
-//     let pos = 0;
 
-//     const id = setInterval(frame, 10);
-//     function frame() {
-//         if (pos == 300) {
-//             clearInterval(id);
-//         } else {
-//             pos++;
-//             elem.style.top = pos + "px";
-//             elem.style.left = pos + 'px';
-//         }
-//     }
-// }
+// this task stops handling events by browser and executes until it's done
+let k = 0;
 
-// using optimized animation call
-function myAnimation() {
-    pos++;
-    elem.style.top = pos + "px";
-    elem.style.left = pos + 'px';
-
-    if (pos < 300) {
-        requestAnimationFrame(myAnimation);
+function count() {
+    for (let i = 0; i < 1e9; i++) {
+        k++;
     }
+    alert('done');
 }
 
-btn.addEventListener('click', () => requestAnimationFrame(myAnimation));
+count();
 
-let id = requestAnimationFrame(myAnimation);
-cancelAnimationFrame(id);
+
+// Interview event loop question sample
+
+// First, setTimeout callback function with 0 ms delay executes after synchronous code, 
+// cause callback goes through asynchronous parts in event loop: at first it gets 
+// to the Web Api, after rhat goes to the Callback queue and only then executes 
+// in Call stack
+
+// Second, JS substitute 4 ms by 0 ms for meeting compatibility between browsers
+
+setTimeout(() => {
+    console.log(1);
+}, 0);
+
+console.log(2); // 2 1
